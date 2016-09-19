@@ -12,6 +12,9 @@
 
 ActiveRecord::Schema.define(version: 20160903163535) do
 
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
   create_table "competitions", force: :cascade do |t|
     t.string   "name"
     t.text     "url"
@@ -20,12 +23,12 @@ ActiveRecord::Schema.define(version: 20160903163535) do
     t.string   "prize"
     t.datetime "created_at",         null: false
     t.datetime "updated_at",         null: false
-    t.integer  "user_id"
     t.string   "image_file_name"
     t.string   "image_content_type"
     t.integer  "image_file_size"
     t.datetime "image_updated_at"
-    t.index ["user_id"], name: "index_competitions_on_user_id"
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_competitions_on_user_id", using: :btree
   end
 
   create_table "users", force: :cascade do |t|
@@ -39,12 +42,12 @@ ActiveRecord::Schema.define(version: 20160903163535) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
     t.string   "name",                   default: "", null: false
     t.string   "last_name",              default: "", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
 
   create_table "videos", force: :cascade do |t|
@@ -53,18 +56,17 @@ ActiveRecord::Schema.define(version: 20160903163535) do
     t.string   "apellidoAutor"
     t.string   "email"
     t.text     "comentario"
-    t.datetime "created_at",                                          null: false
-    t.datetime "updated_at",                                          null: false
+    t.string   "videoConvertido"
+    t.string   "estado",                     default: "En proceso", null: false
+    t.datetime "created_at",                                        null: false
+    t.datetime "updated_at",                                        null: false
     t.string   "videoOriginal_file_name"
     t.string   "videoOriginal_content_type"
     t.integer  "videoOriginal_file_size"
     t.datetime "videoOriginal_updated_at"
-    t.string   "videoComvertido_file_name"
-    t.string   "videoComvertido_content_type"
-    t.integer  "videoComvertido_file_size"
-    t.datetime "videoComvertido_updated_at"
-    t.string   "estado",                       default: "En proceso", null: false
-    t.index ["competition_id"], name: "index_videos_on_competition_id"
+    t.index ["competition_id"], name: "index_videos_on_competition_id", using: :btree
   end
 
+  add_foreign_key "competitions", "users"
+  add_foreign_key "videos", "competitions"
 end

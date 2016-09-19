@@ -6,7 +6,7 @@ class CompetitionsController < ApplicationController
   # GET /competitions.json
   def index
     @competitions = Competition.all
-    @competitions_filter = Competition.where(" user_id = ? ",current_user.id).paginate(page: params[:page],per_page:2)
+    @competitions_filter = Competition.where(" user_id = ? ",current_user.id).paginate(page: params[:page],per_page:10)
   end
 
   # GET /competitions/1
@@ -32,6 +32,7 @@ class CompetitionsController < ApplicationController
 
     respond_to do |format|
       if @competition.save
+        @competition.update(url: request.original_url + '/' + @competition.id.to_s)
         format.html { redirect_to @competition, notice: 'Concurso creado correctamente.' }
         format.json { render :show, status: :created, location: @competition }
       else
@@ -46,6 +47,7 @@ class CompetitionsController < ApplicationController
   def update
     respond_to do |format|
       if @competition.update(competition_params)
+        @competition.update(url: request.original_url)
         format.html { redirect_to @competition, notice: 'Concurso modificado correctamente.' }
         format.json { render :show, status: :ok, location: @competition }
       else
@@ -75,6 +77,8 @@ class CompetitionsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def competition_params
+      urlSave = "My URL"
+      #params.require(:competition).permit(:name, :url, :dateStart, :dateEnd, :prize, :image)
       params.require(:competition).permit(:name, :url, :dateStart, :dateEnd, :prize, :image)
     end
 end

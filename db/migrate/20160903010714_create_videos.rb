@@ -6,6 +6,8 @@ class CreateVideos < ActiveRecord::Migration[5.0]
       t.string :apellidoAutor
       t.string :email
       t.text :comentario
+      t.string :videoConvertido
+      t.string :estado, null: false, default: "En proceso"
 
       t.timestamps
     end

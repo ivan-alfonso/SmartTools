@@ -10,7 +10,7 @@
       <th>Apellidoautor</th>
       <th>Email</th>
       <th>Comentario</th>
-      <th>Fecha creado</th>
+      <th>Estado</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -23,12 +23,9 @@
         <td><%= video.apellidoAutor %></td>
         <td><%= video.email %></td>
         <td><%= video.comentario %></td>
-        <td><%= video.created_at %></td>\
+        <td><%= video.estado %></td>\
         <td><%= link_to 'Show', [video.competition, video] %></td>
       </tr>
     <% end %>
   </tbody>
 </table>
-
-<br>
-<%= will_paginate @videos%>

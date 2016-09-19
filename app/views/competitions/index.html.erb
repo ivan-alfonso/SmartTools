@@ -33,7 +33,7 @@
   <%= link_to 'Crear concurso', new_competition_path, class:"btn btn-success active" %>
   <br>
   <div align="center">
-    <%= will_paginate @competitions_filter %>
+    <%= will_paginate @competitions_filter, renderer: BootstrapPagination::Rails %>
   </div>
   <br>
 </div>

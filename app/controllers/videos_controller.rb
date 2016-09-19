@@ -5,7 +5,8 @@ class VideosController < ApplicationController
   # GET /videos
   # GET /videos.json
   def index
-    @videos = Video.all.paginate(page: params[:page],per_page:2)
+    @videos = Video.all
+    @videos_no_convertidos = Video.where("estado = ?", "En proceso")
     #@videos = Video.order(created_at: :desc)
   end
 
@@ -35,7 +36,8 @@ class VideosController < ApplicationController
 
     respond_to do |format|
       if @video.save
-        format.html { redirect_to @video.competition, notice: 'Video creado correctamente.' }
+        flash[:success] = "Hemos recibido tu video y lo estamos procesando para que sea publicado. Tan pronto el video quede publicado en la página del concurso te notificaremos por email. Gracias"
+        format.html { redirect_to @video.competition, notice: '' }
         format.json { render :show, status: :created, location: @video }
       else
         format.html { render :new }
@@ -79,6 +81,6 @@ class VideosController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def video_params
-      params.require(:video).permit(:competition_id, :nombreAutor, :apellidoAutor, :email, :comentario, :videoOriginal, :videoComvertido, :estado)
+      params.require(:video).permit(:competition_id, :nombreAutor, :apellidoAutor, :email, :comentario, :videoOriginal, :videoConvertido, :estado)
     end
 end

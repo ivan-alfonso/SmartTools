@@ -3,6 +3,12 @@
    <div class="clo-xs-8 col-md-6">
      <div class="box text-left">
 
+      <% flash.each do |key, value| %>
+        <div class="<%= flash_class(key) %>">
+              <%= value %>
+        </div>
+      <% end %>
+
        <p id="notice"><%= notice %></p>
 
        <h1 class="text-blue"><%= @competition.name %></h1>
@@ -16,6 +22,11 @@
        <p>
          <strong>Fecha de inicio:</strong>
          <%= @competition.dateStart %>
+       </p>
+
+        <p>
+         <strong>Fecha de inicio:</strong>
+         <%= @competition.id %>
        </p>
 
        <p>
@@ -43,17 +54,21 @@
 
          <ul>
            <% @competition_videos.each do |video| %>
-              <br><br>
-              <p><b>Fecha de publicación: </b><%= video.created_at %> </p>
-              <p><b>Autor: </b> <%= video.nombreAutor + " " + video.apellidoAutor %> </p>
-              <video width="500" height="240" controls="controls">
-                <source src= "<%= video.videoOriginal %>" >
-                  Su buscador no soporta el video-tag
-              </video>
-              <p><b>Comentario: </b><%= video.comentario %> </p>
-              <% if user_signed_in? %>
-                <%= link_to "Detalles", [video.competition, video], class:"btn btn-primary active" %>
-              <br>
+              <% if user_signed_in? or video.estado == "Procesado" %>
+                <br><br>
+                <p><b>Fecha de publicación: </b><%= video.created_at %> </p>
+                <p><b>Autor: </b> <%= video.nombreAutor + " " + video.apellidoAutor %> </p>
+                <% unless video.estado == "En proceso" %>
+                  <video width="500" height="240" controls="controls">
+                    <source src= <%= video.videoConvertido %> >
+                      Su buscador no soporta el video-tag
+                  </video>
+                <% end %>
+                <p><b>Comentario: </b><%= video.comentario %> </p>
+                <% if user_signed_in? %>
+                  <%= link_to "Detalles", [video.competition, video], class:"btn btn-primary active" %>
+                <br>
+                <% end %>
               <% end %>
            <% end %>
          </ul>
