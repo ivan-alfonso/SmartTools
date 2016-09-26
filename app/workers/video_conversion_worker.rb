@@ -1,3 +1,5 @@
+require 'fileutils'
+
 class VideoConversionWorker
   def perform
   	#@videos_no_convertidos = Video.where("estado = ? AND videoOriginal_content_type != ?", "En proceso", "video/mp4")
@@ -14,6 +16,10 @@ class VideoConversionWorker
       path_videoConvertido = Rails.root.join("public", "converted_videos")
       videoConvertido = path_videoConvertido.to_s + "/" + video.id.to_s + '.mp4'
       nameVideoConverted = "/converted_videos/" + video.id.to_s + '.mp4'
+
+      unless Dir.exist?(path_videoConvertido)
+        FileUtils.mkdir_p(path_videoConvertido)
+      end
 
       unless File.exist?(videoConvertido)
 

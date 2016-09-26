@@ -21,20 +21,22 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   #pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
   pool: 5
+  host: <%= ENV['DB_PG_HOST'] %>
+  port: <%= ENV['DB_PG_PORT'] %>
+  username: <%= ENV['DB_PG_USERNAME'] %>
+  password: <%= ENV['DB_PG_USERPASSWORD'] %>
 
 development:
   <<: *default
-  database: <%= ENV['DATABASE_DEVELOPMENT_HOST'] %>
+  database: <%= ENV['DATABASE_DEVELOPMENT'] %>
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
   # When left blank, postgres will use the default role. This is
   # the same name as the operating system user that initialized the database.
-  username: <%= ENV['DATABASE_DEVELOPMENT_USER'] %>
-
+ 
   # The password associated with the postgres role (username).
-  password: <%= ENV['DATABASE_DEVELOPMENT_PASSWORD'] %>
-
+ 
   # Connect on a TCP socket. Omitted by default since the client uses a
   # domain socket that doesn't need configuration. Windows does not have
   # domain sockets, so uncomment these lines.
@@ -57,10 +59,8 @@ development:
 # re-generated from your development database when you run "rake".
 # Do not set this db to the same as development or production.
 test:
-  <<: *default
-  database: <%= ENV['DATABASE_TEST_HOST'] %>
-  username: <%= ENV['DATABASE_DEVELOPMENT_USER'] %>
-  password: <%= ENV['DATABASE_DEVELOPMENT_PASSWORD'] %>
+ # <<: *default
+ # database: <%= ENV['DATABASE_TEST'] %>
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -82,9 +82,5 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
-  database: <%= ENV['DATABASE_PRODUCTION_HOST'] %>
-  username: <%= ENV['DATABASE_DEVELOPMENT_USER'] %>
-  password: <%= ENV['DATABASE_DEVELOPMENT_PASSWORD'] %>
-  #username: SmartTools2
-  #password: <%= ENV['SMARTTOOLS2_DATABASE_PASSWORD'] %>
+  #<<: *default
+  #database: <%= ENV['DATABASE_PRODUCTION'] %>

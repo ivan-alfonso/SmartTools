@@ -2,7 +2,7 @@
 #
 # It's helpful, but not entirely necessary to understand cron before proceeding.
 # http://en.wikipedia.org/wiki/Cron
-
+env :GEM_PATH, ENV['GEM_PATH']
 # Example:
 #
 # set :output, "/path/to/my/cron_log.log"
