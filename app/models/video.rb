@@ -11,6 +11,7 @@ class Video < ApplicationRecord
   #validates_attachment :videoOriginal, content_type: { content_type: "video/x-ms-wmv" }
 
   has_attached_file :videoOriginal,
+          :path => "original-videos/:id/:basename.:extension",
           :processors => lambda { |a| a.is_video? ? [ :ffmpeg ] : [ :thumbnail ] }
   validates_attachment_content_type :videoOriginal, content_type: /\Avideo\/.*\Z/ 
 end

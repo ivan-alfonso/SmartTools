@@ -1,4 +1,5 @@
 class VideosController < ApplicationController
+  include AwsSqsHelper
   before_action :set_video, only: [:show, :edit, :update, :destroy]
   before_action :set_competition
 
@@ -36,6 +37,7 @@ class VideosController < ApplicationController
 
     respond_to do |format|
       if @video.save
+        send_msg_to_queue(@video.id.to_s)
         flash[:success] = "Hemos recibido tu video y lo estamos procesando para que sea publicado. Tan pronto el video quede publicado en la página del concurso te notificaremos por email. Gracias"
         format.html { redirect_to @video.competition, notice: '' }
         format.json { render :show, status: :created, location: @video }
