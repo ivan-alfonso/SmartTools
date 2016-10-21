@@ -12,8 +12,8 @@
        <p id="notice"><%= notice %></p>
 
        <h1 class="text-blue"><%= @competition.name %></h1>
-
-       <img src= "<%= @competition.image.url(:original) %>"" alt="Fondo" style="width:80%;height:300px;">
+       <% imageCloudFront = '//d3smpe5hs8b20c.cloudfront.net/images/' + @competition.id.to_s + '/' + @competition.image_file_name.to_s %>
+       <img src= <%= imageCloudFront.to_s %> alt="Fondo" style="width:80%;height:300px;">
        
        <p>
          <strong>Url del concurso:</strong>
@@ -64,6 +64,7 @@
                     <source src= <%= video.videoConvertido %> >
                       Su buscador no soporta el video-tag
                   </video>
+
                 <% end %>
                 <p><b>Comentario: </b><%= video.comentario %> </p>
                 <% if user_signed_in? %>

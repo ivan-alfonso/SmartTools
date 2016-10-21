@@ -75,9 +75,10 @@ class VideoConversionWorker
             Rails.logger.info(" #{Time.now} Video cargado en S3: " + video.videoOriginal_file_name.to_s)
             Rails.logger.info(" #{Time.now} URL video: " + obj.public_url.to_s)
 
+            videoCloudFront = '//d3smpe5hs8b20c.cloudfront.net' + nameVideoConverted.to_s
 
-
-            video.update(estado: 'Procesado', videoConvertido: obj.public_url.to_s)
+            #video.update(estado: 'Procesado', videoConvertido: obj.public_url.to_s)
+            video.update(estado: 'Procesado', videoConvertido: videoCloudFront.to_s)
             VideoConvertedMailer.notify(video).deliver
 
             delete_message_from_queue(message_from_queue.receipt_handle)
